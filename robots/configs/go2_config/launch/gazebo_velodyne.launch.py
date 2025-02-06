@@ -13,11 +13,12 @@ from launch.actions import (
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
-
+from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import PathJoinSubstitution
 
 def generate_launch_description():
 
-    use_sim_time = LaunchConfiguration("use_sim_time")
+    use_sim_time = False
     description_path = LaunchConfiguration("description_path")
     base_frame = "base_link"
 
@@ -34,11 +35,12 @@ def generate_launch_description():
     gait_config = os.path.join(config_pkg_share, "config/gait/gait.yaml")
     links_config = os.path.join(config_pkg_share, "config/links/links.yaml")
     default_model_path = os.path.join(descr_pkg_share, "xacro/robot_VLP.xacro")
-    default_world_path = os.path.join(config_pkg_share, "worlds/default.world")
+    # default_world_path = os.path.join(config_pkg_share, "worlds/default.world")
+    default_world_path = PathJoinSubstitution([FindPackageShare('dynus'), 'worlds', 'quadruped_forest3.world'])
 
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time",
-        default_value="true",
+        default_value="false",
         description="Use simulation (Gazebo) clock if true",
     )
     declare_rviz = DeclareLaunchArgument(
@@ -62,7 +64,7 @@ def generate_launch_description():
     declare_gui = DeclareLaunchArgument(
         "gui", default_value="true", description="Use gui"
     )
-    declare_world_init_x = DeclareLaunchArgument("world_init_x", default_value="0.0")
+    declare_world_init_x = DeclareLaunchArgument("world_init_x", default_value="-45.0")
     declare_world_init_y = DeclareLaunchArgument("world_init_y", default_value="0.0")
     declare_world_init_z = DeclareLaunchArgument("world_init_z", default_value="0.275")
     declare_world_init_heading = DeclareLaunchArgument(
@@ -83,7 +85,7 @@ def generate_launch_description():
             "joints_map_path": joints_config,
             "links_map_path": links_config,
             "gait_config_path": gait_config,
-            "use_sim_time": LaunchConfiguration("use_sim_time"),
+            "use_sim_time": "false",
             "robot_name": LaunchConfiguration("robot_name"),
             "gazebo": "true",
             "lite": LaunchConfiguration("lite"),
@@ -91,7 +93,7 @@ def generate_launch_description():
             "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
             "hardware_connected": "false",
             "publish_foot_contacts": "false",
-            "close_loop_odom": "true",
+            "close_loop_odom": "false",
         }.items(),
     )
 
@@ -104,7 +106,7 @@ def generate_launch_description():
             )
         ),
         launch_arguments={
-            "use_sim_time": LaunchConfiguration("use_sim_time"),
+            "use_sim_time": "false",
             "robot_name": LaunchConfiguration("robot_name"),
             "world": LaunchConfiguration("world"),
             "lite": LaunchConfiguration("lite"),
@@ -113,7 +115,7 @@ def generate_launch_description():
             "world_init_z": LaunchConfiguration("world_init_z"),
             "world_init_heading": LaunchConfiguration("world_init_heading"),
             "gui": LaunchConfiguration("gui"),
-            "close_loop_odom": "true",
+            "close_loop_odom": "false",
         }.items(),
     )
 

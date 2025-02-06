@@ -126,5 +126,42 @@
 
     <xacro:include filename="$(find go2_description)/xacro/velodyne.xacro"/>
     <!-- <xacro:include filename="$(find go2_description)/xacro/laser.xacro"/> -->
+    
+    <!-- <joint name="velodyne_base_mount_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0.2 0 0.08"/>
+        <parent link="base_link"/>
+        <child link="velodyne_base_link"/>
+    </joint>
+    <link name="velodyne_base_link">
+        <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 0.03585"/>
+        <inertia ixx="0.000908059425" ixy="0" ixz="0" iyy="0.000908059425" iyz="0" izz="0.0011049624"/>
+        </inertial>
+        <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+            <cylinder length="0.0717" radius="0.0516"/>
+        </geometry>
+        </collision>
+    </link>
+    <joint name="velodyne_base_scan_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.0377"/>
+        <parent link="velodyne_base_link"/>
+        <child link="velodyne"/>
+    </joint>
+    <link name="velodyne">
+        <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+        </inertial>
+        <gravity>0</gravity>
+    </link>
+
+    <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro" />
+    <xacro:mid360 name="quadruped_livox" namespace="NX01" parent="velodyne" topic="mid360" >
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    </xacro:mid360>  -->
 
 </robot>
